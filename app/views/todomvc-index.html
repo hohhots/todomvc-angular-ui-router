@@ -1,0 +1,25 @@
+<section id="todoapp">
+  <header id="header">
+    <h1>todos</h1>
+    <form id="todo-form" ng-submit="todo.addTodo()">
+      <input id="new-todo"  placeholder="What needs to be done?" ng-model="todo.newTodo" value="{{todo.newTodo}}" ng-disabled="todo.saving" autofocus>
+    </form>
+  </header>
+  <section id="main" ng-show="todo.todos.length" ng-cloak>
+    <input id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="todo.markAll(allChecked)">
+    <label for="toggle-all">Mark all as complete</label>
+    <ul id="todo-list">
+      <li ng-repeat="td in todo.todos" ng-class="{completed: td.completed, editing: td == todo.editedTodo}">
+        <div class="view">
+          <input class="toggle" type="checkbox" ng-model="td.completed"
+          ng-change="todo.toggleCompleted(td)">
+          <label ng-dblclick="todo.editTodo(td)">{{td.title}}</label>
+          <button class="destroy" ng-click="todo.removeTodo(td)"></button>
+        </div>
+        <form ng-submit="todo.saveEdits(td, 'submit')">
+          <input class="edit" ng-trim="false" ng-model="td.title" ng-escape="todo.revertEdits(td)" ng-blur="todo.saveEdits(td, 'blur')" todo-focus="td == todo.editedTodo">
+        </form>
+      </li>
+    </ul>
+  </section>
+</section>
