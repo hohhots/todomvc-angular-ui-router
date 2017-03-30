@@ -5,6 +5,8 @@
 (setq-default indent-tabs-mode nil) ;disable tab character
 (setq-default tab-width 2) ;set all buffer indent width to 2
 (setq js-indent-level 2) ;javascript tab indent width set to 2
+(setq web-mode-markup-indent-offset 2)
+(setq sgml-basic-offset 2) ;
 
 (setq inhibit-startup-message t)
 
