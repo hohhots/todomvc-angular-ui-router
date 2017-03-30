@@ -1,5 +1,5 @@
 angular.module('todomvc')
-  .controller('TodoCtrl', ['todoStorage', function(store) {
+  .controller('TodoCtrl', ['$scope','$filter', 'todoStorage', function($scope,$filter,store) {
     var self = this;
 
     this.todos = store.todos;
@@ -8,6 +8,20 @@ angular.module('todomvc')
 
     this.saving = false;
 
+    $scope.$watch('todo.todos', function () {
+			self.remainingCount = $filter('filter')(self.todos, { completed: false }).length;
+			self.completedCount = self.todos.length - self.remainingCount;
+			self.allChecked = !self.remainingCount;
+    }, true);
+
+    /**$scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      console.log();
+			var status = $scope.status; // = toState.url || '';
+			self.statusFilter = (status === 'active') ?
+				{ completed: false } : (status === 'completed') ?
+				{ completed: true } : {};
+		});
+**/
     this.addTodo = function() {
       if(!self.newTodo){
         return;
@@ -34,10 +48,14 @@ angular.module('todomvc')
       self.originalTodo = angular.extend({}, todo);
     };
 
+    this.clearCompletedTodos = function () {
+      store.clearCompleted();
+    };
+
     this.markAll = function (completed) {
       self.todos.forEach(function (todo) {
         if (todo.completed !== completed) {
-          //toggleCompleted(todo, completed);
+          self.toggleCompleted(todo, completed);
         }
       });
     };
@@ -92,7 +110,7 @@ angular.module('todomvc')
 			store.put(todo, self.todos.indexOf(todo))
 				.then(function success() {}, function error() {
 					todo.completed = !todo.completed;
-				});console.log(self.todos);
+				});
 		};
 
   }]);

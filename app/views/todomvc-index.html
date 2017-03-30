@@ -17,9 +17,27 @@
           <button class="destroy" ng-click="todo.removeTodo(td)"></button>
         </div>
         <form ng-submit="todo.saveEdits(td, 'submit')">
-          <input class="edit" ng-trim="false" ng-model="td.title" ng-escape="todo.revertEdits(td)" ng-blur="todo.saveEdits(td, 'blur')" todo-focus="td == todo.editedTodo">
+          <input class="edit" ng-trim="false" ng-model="td.title" todo-escape="todo.revertEdits(td)" ng-blur="todo.saveEdits(td, 'blur')" todo-focus="td == todo.editedTodo">
         </form>
       </li>
     </ul>
   </section>
+  <footer id="footer" ng-show="todo.todos.length" ng-cloak>
+    <span id="todo-count">
+      <strong>{{todo.remainingCount}}</strong>
+      <ng-pluralize count="todo.remainingCount" when="{one: 'item left', other: 'items left'}"></ng-pluralize>
+    </span>
+    <ul id="filters">
+      <li>
+        <a ng-class="{selected: todo.status == ''}" href="#/">All</a>
+        <li>
+          <a ng-class="{selected: todo.status == 'active'}" href="#/active">Active</a>
+        </li>
+        <li>
+          <a ng-class="{selected: todo.status == 'completed'}" href="#/completed">Completed</a>
+        </li>
+      </li>
+    </ul>
+    <button id="clear-completed" ng-click="todo.clearCompletedTodos()" ng-show="todo.completedCount">Clear completed</button>
+  </footer>
 </section>

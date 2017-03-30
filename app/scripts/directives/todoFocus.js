@@ -8,7 +8,6 @@ angular.module('todomvc')
           $timeout(function () {
             elem[0].focus();
           }, 0, false);
-
         }
       });
     };

@@ -38,6 +38,21 @@ angular.module('todomvc')
 				return deferred.promise;
 			},
 
+			clearCompleted: function () {
+				var deferred = $q.defer();
+
+				var incompleteTodos = this.todos.filter(function (todo) {
+					return !todo.completed;
+				});
+
+				angular.copy(incompleteTodos, this.todos);
+
+				this._saveToLocalStorage(this.todos);
+				deferred.resolve(this.todos);
+
+				return deferred.promise;
+			},
+
 			delete: function (todo) {
 				var deferred = $q.defer();
 
@@ -45,6 +60,15 @@ angular.module('todomvc')
 
 				this._saveToLocalStorage(store.todos);
 				deferred.resolve(store.todos);
+
+				return deferred.promise;
+			},
+
+			get: function () {
+				var deferred = $q.defer();
+
+				angular.copy(this._getFromLocalStorage(), this.todos);
+				deferred.resolve(this.todos);
 
 				return deferred.promise;
 			},

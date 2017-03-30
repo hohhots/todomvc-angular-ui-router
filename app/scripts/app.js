@@ -10,6 +10,6 @@ angular
       .state('home', {
         url: '/',
         templateUrl: 'views/todomvc-index.html',
-        controller: 'TodoCtrl as todo',
+        controller: 'TodoCtrl as todo'
       });
   }]);
